@@ -9,232 +9,251 @@
     
     <style>
         :root {
-            --bg-color: #fdf5e6;
-            --soft-brown: #e6ccb2;
-            --mocha: #ddb892;
-            --dark-coffee: #7f5539;
-            --cream: #fff9f0;
+            --bg-color: #fdf5e6;      /* Cream Muda */
+            --soft-brown: #e6ccb2;    /* Cokelat Muda/Latte */
+            --mocha: #ddb892;         /* Cokelat Karamel */
+            --dark-coffee: #7f5539;   /* Cokelat Gelap untuk Teks */
+            --button-color: #9c6644;  /* Cokelat Solid */
         }
 
         * { font-family: 'Quicksand', sans-serif; box-sizing: border-box; }
 
         body {
             background-color: var(--bg-color);
-            background-image: radial-gradient(var(--soft-brown) 1px, transparent 1px);
-            background-size: 20px 20px;
+            background-image: radial-gradient(var(--soft-brown) 0.5px, transparent 0.5px);
+            background-size: 15px 15px; /* Pola bintik cokelat tipis */
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            overflow-x: hidden;
+            padding: 20px;
         }
 
-        /* Music Info */
+        /* Music Info (Kanan Atas) */
         #music-info {
             position: fixed;
-            top: 20px; right: 20px;
+            top: 15px;
+            right: 15px;
             background: rgba(255, 255, 255, 0.9);
-            padding: 10px 15px;
-            border-radius: 30px;
-            display: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            display: flex;
             align-items: center;
             gap: 10px;
-            border: 1px solid var(--mocha);
+            border: 1px solid var(--soft-brown);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
             z-index: 1000;
+            display: none;
         }
 
-        .music-icon { animation: rotate 3s linear infinite; font-size: 20px; }
+        .music-icon { animation: rotate 3s linear infinite; font-size: 18px; }
         @keyframes rotate { from {transform: rotate(0deg);} to {transform: rotate(360deg);} }
 
         .container {
-            background: var(--cream);
-            width: 90%;
+            background: #fff;
+            width: 100%;
             max-width: 400px;
-            padding: 30px;
-            border-radius: 30px;
-            box-shadow: 0 15px 35px rgba(109, 76, 65, 0.1);
+            padding: 25px;
+            border-radius: 25px;
+            box-shadow: 0 10px 30px rgba(127, 85, 57, 0.1);
             text-align: center;
             border: 4px solid var(--soft-brown);
-            position: relative;
-            z-index: 10;
         }
 
-        h1 { font-family: 'Sacramento', cursive; font-size: 2.8rem; color: var(--dark-coffee); margin-bottom: 10px; }
+        h1 { font-family: 'Sacramento', cursive; font-size: 2.5rem; color: var(--dark-coffee); margin: 10px 0; }
+        h2 { color: var(--dark-coffee); font-size: 1.5rem; }
+        
         .hidden { display: none; }
 
+        input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 12px;
+            border: 2px solid var(--soft-brown);
+            margin-bottom: 15px;
+            text-align: center;
+            outline: none;
+            background: var(--bg-color);
+            color: var(--dark-coffee);
+        }
+
         button {
-            background: var(--dark-coffee); color: #fff; border: none;
-            padding: 12px 25px; border-radius: 15px; font-weight: bold;
-            cursor: pointer; transition: 0.3s; margin: 5px;
+            background: var(--button-color);
+            color: #fff;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
         }
 
-        /* Memory Game */
-        .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 20px; }
+        button:hover { background: var(--dark-coffee); transform: scale(1.03); }
+
+        /* Game Grid */
+        .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 20px; }
         .card {
-            aspect-ratio: 1/1; background: var(--mocha); border-radius: 15px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 30px; cursor: pointer; color: transparent;
+            aspect-ratio: 1/1;
+            background: var(--mocha);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 25px;
+            cursor: pointer;
+            color: transparent;
+            transition: 0.3s;
         }
-        .card.flipped { background: #fff; color: var(--dark-coffee); border: 2px solid var(--dark-coffee); transform: rotateY(180deg); }
+        .card.flipped { background: #fff; color: var(--dark-coffee); border: 2px solid var(--mocha); transform: rotateY(180deg); }
 
-        /* Prank Button Wrapper */
-        .btn-wrapper { display: flex; justify-content: center; align-items: center; min-height: 150px; position: relative; }
-        #no-btn { position: absolute; }
+        /* Photo Frame */
+        .photo-frame {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            border-radius: 15px;
+            margin: 15px 0;
+            border: 5px solid var(--soft-brown);
+        }
 
-        /* Catch Game Canvas */
-        #game-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 5; }
-        .heart { position: absolute; font-size: 30px; cursor: pointer; pointer-events: all; user-select: none; }
+        .message-box {
+            background: var(--bg-color);
+            padding: 15px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: var(--dark-coffee);
+            font-style: italic;
+            border-left: 5px solid var(--mocha);
+            text-align: left;
+        }
 
-        .photo-frame { width: 100%; border-radius: 20px; margin: 20px 0; border: 8px solid #fff; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        .message { font-size: 0.95rem; line-height: 1.6; color: var(--dark-coffee); font-style: italic; }
+        .badge-list { margin: 15px 0; text-align: left; }
+        .badge-item { 
+            background: white; 
+            padding: 10px; 
+            border-radius: 10px; 
+            margin-bottom: 8px; 
+            font-size: 0.85rem; 
+            border: 1px solid var(--soft-brown);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
     </style>
 </head>
 <body>
 
     <div id="music-info">
-        <div class="music-icon">🎵</div>
+        <div class="music-icon">🎶</div>
         <div style="text-align: left;">
-            <div id="song-title" style="font-size: 11px; font-weight: bold; color: var(--dark-coffee);">Jatuh Suka - Tulus</div>
+            <div style="font-size: 9px; color: #888;">Playing:</div>
+            <div style="font-size: 11px; font-weight: bold; color: var(--dark-coffee);">Tiara's Melody ☕</div>
         </div>
     </div>
 
-    <audio id="bgMusic" loop><source src="lagu.mp3" type="audio/mpeg"></audio>
-    <div id="game-canvas"></div>
+    <audio id="bgMusic" loop>
+        <source src="lagu.mp3" type="audio/mpeg">
+    </audio>
 
     <div class="container">
-        <div id="page1">
-            <h1>Halo Tiaraa ✨</h1>
-            <p>Password dulu dong!</p>
-            <input type="password" id="pass" placeholder="DDMMYYYY" style="width:100%; padding:10px; border-radius:10px; border:1px solid var(--mocha); text-align:center;">
-            <br>
-            <button onclick="login()">Buka 🤎</button>
+        <div id="page-login">
+            <h1>Special for Tiara</h1>
+            <p style="font-size: 13px; color: var(--dark-coffee);">Sshh! Ini halaman rahasia.<br>Masukkan password untuk membukanya.</p>
+            <input type="password" id="pass" placeholder="Password (09122010)">
+            <button onclick="login()">Unlock 🤎</button>
         </div>
 
-        <div id="page2" class="hidden">
-            <h2>Pemanasan Dulu 🧩</h2>
-            <p style="font-size: 13px;">Cocokkan kartunya ya!</p>
+        <div id="page-game" class="hidden">
+            <h2>Mini Game 🧩</h2>
+            <p style="font-size: 12px;">Cocokkan kartu favoritmu!</p>
             <div class="grid" id="game-board"></div>
         </div>
 
-        <div id="page3" class="hidden">
-            <h2>Udah siap liat isinya? 🤨</h2>
-            <p style="font-size: 13px;">Yakin nih?</p>
-            <div class="btn-wrapper">
-                <button onclick="showPage('page3', 'page4')">Siap Banget! 😍</button>
-                <button id="no-btn" onmouseover="lariLu()">Enggak 😜</button>
+        <div id="page-wish" class="hidden">
+            <h1>Happy Birthday!</h1>
+            <img src="foto1.jpg" class="photo-frame" alt="Tiara 1">
+            <div class="message-box">
+                "Hai Tiara Amelia! Selamat bertambah usia ya. Semoga harimu selalu dipenuhi cokelat yang manis dan senyum yang tulus. Sukses terus buat semua impianmu!"
             </div>
+            <button onclick="showPage('page-wish', 'page-prestasi')">Pencapaianmu →</button>
         </div>
 
-        <div id="page4" class="hidden">
-            <h1>HBD Tiara Amelia!</h1>
-            <img src="foto1.jpg" class="photo-frame" onerror="this.src='https://via.placeholder.com/300?text=Foto+Tiara'">
-            <p class="message">"Selamat ulang tahun! Semoga harimu semanis cokelat dan semua mimpimu jadi nyata. Sukses terus ya!"</p>
-            <button onclick="showPage('page4', 'page5')">Next Page ✨</button>
+        <div id="page-prestasi" class="hidden">
+            <h2>Our Pride 🏆</h2>
+            <img src="foto2.jpg" class="photo-frame" alt="Tiara 2">
+            <div class="badge-list">
+                <div class="badge-item"><span>🎨</span> Lulus Kelas 9 dengan Hebat</div>
+                <div class="badge-item"><span>🎤</span> Juara di Hati Teman-teman</div>
+                <div class="badge-item"><span>📚</span> Siswi yang Selalu Bersemangat</div>
+            </div>
+            <button onclick="showPage('page-prestasi', 'page-thanks')">Last Message 💌</button>
         </div>
 
-        <div id="page5" class="hidden">
-            <h1>Thank You! 🤎</h1>
-            <img src="foto3.jpg" class="photo-frame" onerror="this.src='https://via.placeholder.com/300?text=Foto+Tiara'">
-            <p class="message">"Makasih ya udah nemenin masa-masa kelas 9 jadi lebih indah. Jangan lupain kita semua!"</p>
-            <button onclick="startCatchGame()">Main Catch Heart! 🎮</button>
-        </div>
-
-        <div id="page6" class="hidden">
-            <h2>Tangkap 10 Hati! 🤎</h2>
-            <p>Skor: <span id="score">0</span></p>
-            <p style="font-size: 11px;">Klik hati yang jatuh!</p>
+        <div id="page-thanks" class="hidden">
+            <h2>Thank You 🤎</h2>
+            <img src="foto3.jpg" class="photo-frame" alt="Tiara 3">
+            <div class="message-box">
+                "Makasih udah jadi bagian dari cerita kita di Kelas 9. Semangat di sekolah barunya nanti ya, jangan lupain kita!"
+            </div>
+            <p style="font-family: 'Sacramento'; font-size: 24px; margin-top: 15px;">- Teman Kelas 9 -</p>
+            <button onclick="location.reload()">Restart 🔄</button>
         </div>
     </div>
 
     <script>
-        const music = document.getElementById('bgMusic');
-        let currentScore = 0;
+        const PASS_CORRECT = "09122010";
+        const audio = document.getElementById('bgMusic');
 
         function login() {
-            if(document.getElementById('pass').value === "09122010") {
-                music.play();
+            const val = document.getElementById('pass').value;
+            if(val === PASS_CORRECT) {
+                audio.play();
                 document.getElementById('music-info').style.display = 'flex';
-                showPage('page1', 'page2');
-                initGame();
-            } else { alert("Password salah! (09122010)"); }
+                showPage('page-login', 'page-game');
+                setupGame();
+            } else {
+                alert("Ups! Password salah. Coba lagi ya!");
+            }
         }
 
-        function showPage(old, next) {
-            document.getElementById(old).classList.add('hidden');
+        function showPage(curr, next) {
+            document.getElementById(curr).classList.add('hidden');
             document.getElementById(next).classList.remove('hidden');
         }
 
-        // Prank Button: Tombol lari-lari
-        function lariLu() {
-            const btn = document.getElementById('no-btn');
-            const x = Math.random() * (window.innerWidth - 100);
-            const y = Math.random() * (window.innerHeight - 100);
-            btn.style.position = 'fixed';
-            btn.style.left = x + 'px';
-            btn.style.top = y + 'px';
-        }
+        // Game Logic (☕, 🎤, 📖)
+        const items = ['☕', '🎤', '📖', '☕', '🎤', '📖'];
+        let flipped = [];
+        let matchedCount = 0;
 
-        // Game 1: Memory Game
-        function initGame() {
-            const items = ['☕', '🎤', '📖', '☕', '🎤', '📖'].sort(() => 0.5 - Math.random());
+        function setupGame() {
             const board = document.getElementById('game-board');
-            let flippedCards = [];
-            let matchedCards = 0;
-
+            items.sort(() => 0.5 - Math.random());
             items.forEach(item => {
                 const card = document.createElement('div');
                 card.className = 'card';
                 card.innerHTML = item;
                 card.onclick = () => {
-                    if(flippedCards.length < 2 && !card.classList.contains('flipped')) {
+                    if(flipped.length < 2 && !card.classList.contains('flipped')) {
                         card.classList.add('flipped');
-                        flippedCards.push(card);
-                        if(flippedCards.length === 2) {
+                        flipped.push(card);
+                        if(flipped.length === 2) {
                             setTimeout(() => {
-                                if(flippedCards[0].innerHTML === flippedCards[1].innerHTML) {
-                                    matchedCards++;
-                                    if(matchedCards === 3) showPage('page2', 'page3');
+                                if(flipped[0].innerHTML === flipped[1].innerHTML) {
+                                    matchedCount++;
+                                    if(matchedCount === 3) showPage('page-game', 'page-wish');
                                 } else {
-                                    flippedCards.forEach(c => c.classList.remove('flipped'));
+                                    flipped.forEach(c => c.classList.remove('flipped'));
                                 }
-                                flippedCards = [];
+                                flipped = [];
                             }, 600);
                         }
                     }
-                };
+                }
                 board.appendChild(card);
             });
-        }
-
-        // Game 2: Catch the Heart
-        function startCatchGame() {
-            showPage('page5', 'page6');
-            setInterval(spawnHeart, 800);
-        }
-
-        function spawnHeart() {
-            if(document.getElementById('page6').classList.contains('hidden')) return;
-            const h = document.createElement('div');
-            h.className = 'heart';
-            h.innerHTML = "🤎";
-            h.style.left = Math.random() * 90 + 'vw';
-            h.style.top = '-50px';
-            h.style.transition = 'top 3s linear';
-            document.body.appendChild(h);
-            
-            setTimeout(() => h.style.top = '110vh', 10);
-            
-            h.onclick = () => {
-                currentScore++;
-                document.getElementById('score').innerText = currentScore;
-                h.remove();
-                if(currentScore === 10) {
-                    alert("Yeeey! Kamu dapet 10 cinta! Sukses terus ya Tiara! ✨");
-                    location.reload();
-                }
-            };
-            setTimeout(() => h.remove(), 3000);
         }
     </script>
 </body>
