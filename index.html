@@ -9,11 +9,11 @@
     
     <style>
         :root {
-            --bg-color: #fdf5e6;      /* Cream Muda */
-            --soft-brown: #e6ccb2;    /* Cokelat Muda/Latte */
-            --mocha: #ddb892;         /* Cokelat Karamel */
-            --dark-coffee: #7f5539;   /* Cokelat Gelap untuk Teks */
-            --button-color: #9c6644;  /* Cokelat Solid */
+            --bg-color: #fdf5e6;
+            --soft-brown: #e6ccb2;
+            --mocha: #ddb892;
+            --dark-coffee: #7f5539;
+            --button-color: #9c6644;
         }
 
         * { font-family: 'Quicksand', sans-serif; box-sizing: border-box; }
@@ -21,20 +21,19 @@
         body {
             background-color: var(--bg-color);
             background-image: radial-gradient(var(--soft-brown) 0.5px, transparent 0.5px);
-            background-size: 15px 15px; /* Pola bintik cokelat tipis */
+            background-size: 15px 15px;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
             padding: 20px;
+            overflow-x: hidden;
         }
 
-        /* Music Info (Kanan Atas) */
         #music-info {
             position: fixed;
-            top: 15px;
-            right: 15px;
+            top: 15px; right: 15px;
             background: rgba(255, 255, 255, 0.9);
             padding: 8px 15px;
             border-radius: 20px;
@@ -42,7 +41,6 @@
             align-items: center;
             gap: 10px;
             border: 1px solid var(--soft-brown);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
             z-index: 1000;
             display: none;
         }
@@ -59,88 +57,50 @@
             box-shadow: 0 10px 30px rgba(127, 85, 57, 0.1);
             text-align: center;
             border: 4px solid var(--soft-brown);
+            position: relative;
         }
 
         h1 { font-family: 'Sacramento', cursive; font-size: 2.5rem; color: var(--dark-coffee); margin: 10px 0; }
         h2 { color: var(--dark-coffee); font-size: 1.5rem; }
-        
         .hidden { display: none; }
 
         input {
-            width: 100%;
-            padding: 12px;
-            border-radius: 12px;
-            border: 2px solid var(--soft-brown);
-            margin-bottom: 15px;
-            text-align: center;
-            outline: none;
-            background: var(--bg-color);
-            color: var(--dark-coffee);
+            width: 100%; padding: 12px; border-radius: 12px;
+            border: 2px solid var(--soft-brown); margin-bottom: 15px;
+            text-align: center; outline: none; background: var(--bg-color);
         }
 
         button {
-            background: var(--button-color);
-            color: #fff;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 12px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.3s;
+            background: var(--button-color); color: #fff; border: none;
+            padding: 12px 20px; border-radius: 12px; font-weight: bold;
+            cursor: pointer; transition: 0.3s;
         }
 
         button:hover { background: var(--dark-coffee); transform: scale(1.03); }
 
-        /* Game Grid */
         .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 20px; }
         .card {
-            aspect-ratio: 1/1;
-            background: var(--mocha);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 25px;
-            cursor: pointer;
-            color: transparent;
-            transition: 0.3s;
+            aspect-ratio: 1/1; background: var(--mocha); border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 25px; cursor: pointer; color: transparent;
         }
         .card.flipped { background: #fff; color: var(--dark-coffee); border: 2px solid var(--mocha); transform: rotateY(180deg); }
 
-        /* Photo Frame */
-        .photo-frame {
-            width: 100%;
-            height: 220px;
-            object-fit: cover;
-            border-radius: 15px;
-            margin: 15px 0;
-            border: 5px solid var(--soft-brown);
-        }
+        .photo-frame { width: 100%; height: 220px; object-fit: cover; border-radius: 15px; margin: 15px 0; border: 5px solid var(--soft-brown); }
 
         .message-box {
-            background: var(--bg-color);
-            padding: 15px;
-            border-radius: 15px;
-            font-size: 0.9rem;
-            line-height: 1.5;
-            color: var(--dark-coffee);
-            font-style: italic;
-            border-left: 5px solid var(--mocha);
-            text-align: left;
+            background: var(--bg-color); padding: 15px; border-radius: 15px;
+            font-size: 0.9rem; color: var(--dark-coffee); font-style: italic;
+            border-left: 5px solid var(--mocha); text-align: left;
         }
 
-        .badge-list { margin: 15px 0; text-align: left; }
-        .badge-item { 
-            background: white; 
-            padding: 10px; 
-            border-radius: 10px; 
-            margin-bottom: 8px; 
-            font-size: 0.85rem; 
-            border: 1px solid var(--soft-brown);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+        /* Prank Section */
+        .prank-wrap { min-height: 150px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 10px; position: relative; }
+        #no-btn { position: absolute; transition: 0.2s; z-index: 999; }
+
+        /* Catch Game Canvas */
+        #game-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 5; }
+        .falling-heart { position: absolute; font-size: 30px; cursor: pointer; pointer-events: all; user-select: none; }
     </style>
 </head>
 <body>
@@ -148,56 +108,57 @@
     <div id="music-info">
         <div class="music-icon">🎶</div>
         <div style="text-align: left;">
-            <div style="font-size: 9px; color: #888;">Playing:</div>
             <div style="font-size: 11px; font-weight: bold; color: var(--dark-coffee);">Tiara's Melody ☕</div>
         </div>
     </div>
 
-    <audio id="bgMusic" loop>
-        <source src="lagu.mp3" type="audio/mpeg">
-    </audio>
+    <audio id="bgMusic" loop><source src="lagu.mp3" type="audio/mpeg"></audio>
+    <div id="game-canvas"></div>
 
     <div class="container">
         <div id="page-login">
             <h1>Special for Tiara</h1>
-            <p style="font-size: 13px; color: var(--dark-coffee);">Sshh! Ini halaman rahasia.<br>Masukkan password untuk membukanya.</p>
             <input type="password" id="pass" placeholder="Password (09122010)">
             <button onclick="login()">Unlock 🤎</button>
         </div>
 
         <div id="page-game" class="hidden">
-            <h2>Mini Game 🧩</h2>
-            <p style="font-size: 12px;">Cocokkan kartu favoritmu!</p>
+            <h2>Mini Game 1 🧩</h2>
             <div class="grid" id="game-board"></div>
         </div>
 
         <div id="page-wish" class="hidden">
             <h1>Happy Birthday!</h1>
-            <img src="foto1.jpg" class="photo-frame" alt="Tiara 1">
-            <div class="message-box">
-                "Hai Tiara Amelia! Selamat bertambah usia ya. Semoga harimu selalu dipenuhi cokelat yang manis dan senyum yang tulus. Sukses terus buat semua impianmu!"
-            </div>
+            <img src="foto1.jpg" class="photo-frame">
+            <div class="message-box">"Semoga harimu selalu manis dan penuh senyum!"</div>
             <button onclick="showPage('page-wish', 'page-prestasi')">Pencapaianmu →</button>
         </div>
 
         <div id="page-prestasi" class="hidden">
             <h2>Our Pride 🏆</h2>
-            <img src="foto2.jpg" class="photo-frame" alt="Tiara 2">
-            <div class="badge-list">
-                <div class="badge-item"><span>🎨</span> Lulus Kelas 9 dengan Hebat</div>
-                <div class="badge-item"><span>🎤</span> Juara di Hati Teman-teman</div>
-                <div class="badge-item"><span>📚</span> Siswi yang Selalu Bersemangat</div>
+            <img src="foto2.jpg" class="photo-frame">
+            <button onclick="showPage('page-prestasi', 'page-ready')">Next →</button>
+        </div>
+
+        <div id="page-ready" class="hidden">
+            <h2>Udah siap liat pesan terakhir? 🤨</h2>
+            <div class="prank-wrap">
+                <button onclick="showPage('page-ready', 'page-catch')">Siap Banget! 😍</button>
+                <button id="no-btn" onmouseover="moveNo()">Enggak 😜</button>
             </div>
-            <button onclick="showPage('page-prestasi', 'page-thanks')">Last Message 💌</button>
+        </div>
+
+        <div id="page-catch" class="hidden">
+            <h2>Mini Game 2 🤎</h2>
+            <p>Tangkap 10 hati yang jatuh!</p>
+            <h3 id="score-text">Score: 0</h3>
         </div>
 
         <div id="page-thanks" class="hidden">
             <h2>Thank You 🤎</h2>
-            <img src="foto3.jpg" class="photo-frame" alt="Tiara 3">
-            <div class="message-box">
-                "Makasih udah jadi bagian dari cerita kita di Kelas 9. Semangat di sekolah barunya nanti ya, jangan lupain kita!"
-            </div>
-            <p style="font-family: 'Sacramento'; font-size: 24px; margin-top: 15px;">- Teman Kelas 9 -</p>
+            <img src="foto3.jpg" class="photo-frame">
+            <div class="message-box">"Makasih udah jadi bagian dari cerita kita di Kelas 9. Sukses terus ya!"</div>
+            <p style="font-family: 'Sacramento'; font-size: 24px;">- Teman Kelas 9 -</p>
             <button onclick="location.reload()">Restart 🔄</button>
         </div>
     </div>
@@ -205,55 +166,86 @@
     <script>
         const PASS_CORRECT = "09122010";
         const audio = document.getElementById('bgMusic');
+        let score = 0;
 
         function login() {
-            const val = document.getElementById('pass').value;
-            if(val === PASS_CORRECT) {
+            if(document.getElementById('pass').value === PASS_CORRECT) {
                 audio.play();
                 document.getElementById('music-info').style.display = 'flex';
                 showPage('page-login', 'page-game');
                 setupGame();
-            } else {
-                alert("Ups! Password salah. Coba lagi ya!");
-            }
+            } else { alert("Password salah!"); }
         }
 
         function showPage(curr, next) {
             document.getElementById(curr).classList.add('hidden');
             document.getElementById(next).classList.remove('hidden');
+            if(next === 'page-catch') startCatchGame();
         }
 
-        // Game Logic (☕, 🎤, 📖)
-        const items = ['☕', '🎤', '📖', '☕', '🎤', '📖'];
-        let flipped = [];
-        let matchedCount = 0;
+        function moveNo() {
+            const btn = document.getElementById('no-btn');
+            const x = Math.random() * (window.innerWidth - 100);
+            const y = Math.random() * (window.innerHeight - 100);
+            btn.style.position = 'fixed';
+            btn.style.left = x + 'px';
+            btn.style.top = y + 'px';
+        }
 
         function setupGame() {
+            const items = ['☕', '🎤', '📖', '☕', '🎤', '📖'].sort(() => 0.5 - Math.random());
             const board = document.getElementById('game-board');
-            items.sort(() => 0.5 - Math.random());
+            let flipped = [];
             items.forEach(item => {
                 const card = document.createElement('div');
-                card.className = 'card';
-                card.innerHTML = item;
+                card.className = 'card'; card.innerHTML = item;
                 card.onclick = () => {
                     if(flipped.length < 2 && !card.classList.contains('flipped')) {
-                        card.classList.add('flipped');
-                        flipped.push(card);
+                        card.classList.add('flipped'); flipped.push(card);
                         if(flipped.length === 2) {
                             setTimeout(() => {
                                 if(flipped[0].innerHTML === flipped[1].innerHTML) {
-                                    matchedCount++;
-                                    if(matchedCount === 3) showPage('page-game', 'page-wish');
-                                } else {
-                                    flipped.forEach(c => c.classList.remove('flipped'));
-                                }
+                                    if(++matchedCount === 3) showPage('page-game', 'page-wish');
+                                } else { flipped.forEach(c => c.classList.remove('flipped')); }
                                 flipped = [];
                             }, 600);
                         }
                     }
-                }
+                };
                 board.appendChild(card);
             });
+        }
+        let matchedCount = 0;
+
+        function startCatchGame() {
+            const interval = setInterval(() => {
+                if(score >= 10) {
+                    clearInterval(interval);
+                    showPage('page-catch', 'page-thanks');
+                    return;
+                }
+                createHeart();
+            }, 800);
+        }
+
+        function createHeart() {
+            const h = document.createElement('div');
+            h.className = 'falling-heart'; h.innerHTML = "🤎";
+            h.style.left = Math.random() * 80 + 10 + "vw";
+            h.style.top = "-50px";
+            document.getElementById('game-canvas').appendChild(h);
+
+            let pos = -50;
+            const fall = setInterval(() => {
+                if(pos > window.innerHeight) { clearInterval(fall); h.remove(); }
+                pos += 3; h.style.top = pos + "px";
+            }, 10);
+
+            h.onclick = () => {
+                score++;
+                document.getElementById('score-text').innerText = "Score: " + score;
+                clearInterval(fall); h.remove();
+            };
         }
     </script>
 </body>
