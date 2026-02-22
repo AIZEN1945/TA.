@@ -9,106 +9,95 @@
     
     <style>
         :root {
-            --bg-color: #fdf5e6;
-            --soft-brown: #e6ccb2;
-            --mocha: #ddb892;
-            --dark-coffee: #7f5539;
-            --button-color: #9c6644;
+            --soft-brown: #f3e5f5;
+            --mocha: #d7ccc8;
+            --dark-coffee: #ce8a3c;
+            --cream: #fff9f0;
         }
 
         * { font-family: 'Quicksand', sans-serif; box-sizing: border-box; }
 
         body {
-            background-color: var(--bg-color);
-            background-image: radial-gradient(var(--soft-brown) 0.5px, transparent 0.5px);
-            background-size: 15px 15px;
+            background-color: #efebe9;
+            background-image: radial-gradient(#d7ccc8 1px, transparent 1px);
+            background-size: 20px 20px;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            padding: 20px;
             overflow-x: hidden;
         }
 
         #music-info {
             position: fixed;
-            top: 15px; right: 15px;
-            background: rgba(255, 255, 255, 0.9);
-            padding: 8px 15px;
-            border-radius: 20px;
-            display: flex;
+            top: 20px; right: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 10px 15px;
+            border-radius: 30px;
+            display: none;
             align-items: center;
             gap: 10px;
-            border: 1px solid var(--soft-brown);
+            border: 1px solid var(--mocha);
             z-index: 1000;
-            display: none;
         }
 
-        .music-icon { animation: rotate 3s linear infinite; font-size: 18px; }
+        .music-icon { animation: rotate 3s linear infinite; font-size: 20px; }
         @keyframes rotate { from {transform: rotate(0deg);} to {transform: rotate(360deg);} }
 
         .container {
-            background: #fff;
-            width: 100%;
+            background: var(--cream);
+            width: 90%;
             max-width: 400px;
-            padding: 25px;
-            border-radius: 25px;
-            box-shadow: 0 10px 30px rgba(127, 85, 57, 0.1);
+            padding: 30px;
+            border-radius: 30px;
+            box-shadow: 0 15px 35px rgba(109, 76, 65, 0.1);
             text-align: center;
-            border: 4px solid var(--soft-brown);
+            border: 2px solid #fff;
             position: relative;
         }
 
-        h1 { font-family: 'Sacramento', cursive; font-size: 2.5rem; color: var(--dark-coffee); margin: 10px 0; }
-        h2 { color: var(--dark-coffee); font-size: 1.5rem; }
+        h1 { font-family: 'Sacramento', cursive; font-size: 2.8rem; color: var(--dark-coffee); margin-bottom: 10px; }
         .hidden { display: none; }
 
         input {
-            width: 100%; padding: 12px; border-radius: 12px;
-            border: 2px solid var(--soft-brown); margin-bottom: 15px;
-            text-align: center; outline: none; background: var(--bg-color);
+            width: 100%; padding: 15px; border-radius: 15px;
+            border: 2px solid var(--mocha); margin-bottom: 15px; outline: none; text-align: center;
         }
 
         button {
-            background: var(--button-color); color: #fff; border: none;
-            padding: 12px 20px; border-radius: 12px; font-weight: bold;
+            background: var(--dark-coffee); color: #fff; border: none;
+            padding: 12px 25px; border-radius: 15px; font-weight: bold;
             cursor: pointer; transition: 0.3s;
         }
 
-        button:hover { background: var(--dark-coffee); transform: scale(1.03); }
-
-        .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 20px; }
-        .card {
-            aspect-ratio: 1/1; background: var(--mocha); border-radius: 12px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 25px; cursor: pointer; color: transparent;
-        }
-        .card.flipped { background: #fff; color: var(--dark-coffee); border: 2px solid var(--mocha); transform: rotateY(180deg); }
-
-        .photo-frame { width: 100%; height: 220px; object-fit: cover; border-radius: 15px; margin: 15px 0; border: 5px solid var(--soft-brown); }
-
-        .message-box {
-            background: var(--bg-color); padding: 15px; border-radius: 15px;
-            font-size: 0.9rem; color: var(--dark-coffee); font-style: italic;
-            border-left: 5px solid var(--mocha); text-align: left;
-        }
-
         /* Prank Section */
-        .prank-wrap { min-height: 150px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 10px; position: relative; }
-        #no-btn { position: absolute; transition: 0.2s; z-index: 999; }
+        .btn-wrap { display: flex; justify-content: center; align-items: center; min-height: 100px; position: relative; margin-top: 20px; }
+        #no-btn { position: absolute; }
 
-        /* Catch Game Canvas */
+        /* Game Grid */
+        .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 20px; }
+        .card {
+            aspect-ratio: 1/1; background: var(--mocha); border-radius: 15px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 30px; cursor: pointer; color: transparent; transition: 0.4s;
+        }
+        .card.flipped { background: #fff; color: var(--dark-coffee); transform: rotateY(180deg); border: 2px solid var(--dark-coffee); }
+
+        /* Catch Game */
         #game-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 5; }
-        .falling-heart { position: absolute; font-size: 30px; cursor: pointer; pointer-events: all; user-select: none; }
+        .heart { position: absolute; font-size: 30px; cursor: pointer; pointer-events: all; }
+
+        .photo-frame { width: 100%; border-radius: 20px; margin: 20px 0; border: 8px solid #fff; }
+        .badge { background: #d7ccc8; padding: 10px; border-radius: 10px; margin: 10px 0; font-size: 0.85rem; display: flex; align-items: center; gap: 10px; }
     </style>
 </head>
 <body>
 
     <div id="music-info">
-        <div class="music-icon">🎶</div>
+        <div class="music-icon">🎵</div>
         <div style="text-align: left;">
-            <div style="font-size: 11px; font-weight: bold; color: var(--dark-coffee);">Tiara's Melody ☕</div>
+            <div id="song-title" style="font-size: 12px; font-weight: bold;">Jatuh Suka - Tulus</div>
         </div>
     </div>
 
@@ -116,74 +105,74 @@
     <div id="game-canvas"></div>
 
     <div class="container">
-        <div id="page-login">
-            <h1>Special for Tiara</h1>
+        <div id="page1">
+            <h1>Halo Tiaraa ✨</h1>
             <input type="password" id="pass" placeholder="Password (09122010)">
-            <button onclick="login()">Unlock 🤎</button>
+            <button onclick="login()">Buka</button>
         </div>
 
-        <div id="page-game" class="hidden">
-            <h2>Mini Game 1 🧩</h2>
+        <div id="page2" class="hidden">
+            <h2 style="color: var(--dark-coffee);">Main Game Dulu 🧩</h2>
             <div class="grid" id="game-board"></div>
         </div>
 
-        <div id="page-wish" class="hidden">
-            <h1>Happy Birthday!</h1>
-            <img src="foto1.jpg" class="photo-frame">
-            <div class="message-box">"Semoga harimu selalu manis dan penuh senyum!"</div>
-            <button onclick="showPage('page-wish', 'page-prestasi')">Pencapaianmu →</button>
-        </div>
-
-        <div id="page-prestasi" class="hidden">
-            <h2>Our Pride 🏆</h2>
-            <img src="foto2.jpg" class="photo-frame">
-            <button onclick="showPage('page-prestasi', 'page-ready')">Next →</button>
+        <div id="page3" class="hidden">
+            <h1>Untuk Tiaraa</h1>
+            <img src="foto1.jpg" class="photo-frame" onerror="this.src='https://via.placeholder.com/300?text=Foto+1'">
+            <p style="font-style: italic; color: #ce8b4c;">"Selamat ulang tahun! Semoga makin hebat dan cantik ya!"</p>
+            <button onclick="showPage('page3', 'page-ready')">Lanjut ✨</button>
         </div>
 
         <div id="page-ready" class="hidden">
-            <h2>Udah siap liat pesan terakhir? 🤨</h2>
-            <div class="prank-wrap">
-                <button onclick="showPage('page-ready', 'page-catch')">Siap Banget! 😍</button>
-                <button id="no-btn" onmouseover="moveNo()">Enggak 😜</button>
+            <h2>Udah siap liat perjalanannya? 🤨</h2>
+            <div class="btn-wrap">
+                <button onclick="showPage('page-ready', 'page4')">Siap Banget! 😍</button>
+                <button id="no-btn" onmouseover="lari()">Enggak 😜</button>
             </div>
         </div>
 
-        <div id="page-catch" class="hidden">
-            <h2>Mini Game 2 🤎</h2>
-            <p>Tangkap 10 hati yang jatuh!</p>
-            <h3 id="score-text">Score: 0</h3>
+        <div id="page4" class="hidden">
+            <h2 style="color: var(--dark-coffee);">Your Journey 🏆</h2>
+            <img src="foto2.jpg" class="photo-frame" onerror="this.src='https://via.placeholder.com/300?text=Foto+2'">
+            <div class="badge"><span>🏆</span> Juara 1 Lomba Seni Kelas 9</div>
+            <div class="badge"><span>🌟</span> Siswa Paling Ceria</div>
+            <button onclick="startCatchGame()">Buka Kejutan Terakhir 🎁</button>
         </div>
 
-        <div id="page-thanks" class="hidden">
-            <h2>Thank You 🤎</h2>
-            <img src="foto3.jpg" class="photo-frame">
-            <div class="message-box">"Makasih udah jadi bagian dari cerita kita di Kelas 9. Sukses terus ya!"</div>
-            <p style="font-family: 'Sacramento'; font-size: 24px;">- Teman Kelas 9 -</p>
-            <button onclick="location.reload()">Restart 🔄</button>
+        <div id="page-game2" class="hidden">
+            <h2>Tangkap 10 Hati! 🤎</h2>
+            <p>Score: <span id="score">0</span></p>
+        </div>
+
+        <div id="page5" class="hidden">
+            <h1>Thank You!</h1>
+            <img src="foto3.jpg" class="photo-frame" onerror="this.src='https://via.placeholder.com/300?text=Foto+3'">
+            <p style="font-style: italic; color: #ce8b4c;">"Makasih udah nemenin masa kelas 9. Sukses di SMA nanti!"</p>
+            <p style="font-family: 'Sacramento'; font-size: 25px;">- With Love -</p>
         </div>
     </div>
 
     <script>
-        const PASS_CORRECT = "09122010";
-        const audio = document.getElementById('bgMusic');
+        const PASS = "09122010";
+        const music = document.getElementById('bgMusic');
         let score = 0;
 
         function login() {
-            if(document.getElementById('pass').value === PASS_CORRECT) {
-                audio.play();
+            if(document.getElementById('pass').value === PASS) {
+                music.play();
                 document.getElementById('music-info').style.display = 'flex';
-                showPage('page-login', 'page-game');
-                setupGame();
+                showPage('page1', 'page2');
+                initGame();
             } else { alert("Password salah!"); }
         }
 
-        function showPage(curr, next) {
-            document.getElementById(curr).classList.add('hidden');
+        function showPage(old, next) {
+            document.getElementById(old).classList.add('hidden');
             document.getElementById(next).classList.remove('hidden');
-            if(next === 'page-catch') startCatchGame();
         }
 
-        function moveNo() {
+        // Tombol lari
+        function lari() {
             const btn = document.getElementById('no-btn');
             const x = Math.random() * (window.innerWidth - 100);
             const y = Math.random() * (window.innerHeight - 100);
@@ -192,10 +181,12 @@
             btn.style.top = y + 'px';
         }
 
-        function setupGame() {
+        // Game 1
+        function initGame() {
             const items = ['☕', '🎤', '📖', '☕', '🎤', '📖'].sort(() => 0.5 - Math.random());
             const board = document.getElementById('game-board');
             let flipped = [];
+            let matched = 0;
             items.forEach(item => {
                 const card = document.createElement('div');
                 card.className = 'card'; card.innerHTML = item;
@@ -205,7 +196,8 @@
                         if(flipped.length === 2) {
                             setTimeout(() => {
                                 if(flipped[0].innerHTML === flipped[1].innerHTML) {
-                                    if(++matchedCount === 3) showPage('page-game', 'page-wish');
+                                    matched++;
+                                    if(matched === 3) showPage('page2', 'page3');
                                 } else { flipped.forEach(c => c.classList.remove('flipped')); }
                                 flipped = [];
                             }, 600);
@@ -215,37 +207,26 @@
                 board.appendChild(card);
             });
         }
-        let matchedCount = 0;
 
+        // Game 2
         function startCatchGame() {
+            showPage('page4', 'page-game2');
             const interval = setInterval(() => {
                 if(score >= 10) {
                     clearInterval(interval);
-                    showPage('page-catch', 'page-thanks');
+                    showPage('page-game2', 'page5');
                     return;
                 }
-                createHeart();
+                const h = document.createElement('div');
+                h.className = 'heart'; h.innerHTML = "🤎";
+                h.style.left = Math.random() * 80 + 10 + "vw";
+                h.style.top = "-50px";
+                h.style.transition = "top 3s linear";
+                document.getElementById('game-canvas').appendChild(h);
+                setTimeout(() => h.style.top = "110vh", 100);
+                h.onclick = () => { score++; document.getElementById('score').innerText = score; h.remove(); };
+                setTimeout(() => h.remove(), 3000);
             }, 800);
-        }
-
-        function createHeart() {
-            const h = document.createElement('div');
-            h.className = 'falling-heart'; h.innerHTML = "🤎";
-            h.style.left = Math.random() * 80 + 10 + "vw";
-            h.style.top = "-50px";
-            document.getElementById('game-canvas').appendChild(h);
-
-            let pos = -50;
-            const fall = setInterval(() => {
-                if(pos > window.innerHeight) { clearInterval(fall); h.remove(); }
-                pos += 3; h.style.top = pos + "px";
-            }, 10);
-
-            h.onclick = () => {
-                score++;
-                document.getElementById('score-text').innerText = "Score: " + score;
-                clearInterval(fall); h.remove();
-            };
         }
     </script>
 </body>
