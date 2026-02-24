@@ -7,9 +7,11 @@
     
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&family=Sacramento&display=swap" rel="stylesheet">
     
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
     <style>
         :root {
-            --soft-brown: #caa052; /* Warna dasar cokelat susu sangat muda */
+            --soft-brown: #caa052; 
             --mocha: #d7ccc8;
             --dark-coffee: #ce8a3c;
             --cream: #fff9f0;
@@ -20,7 +22,7 @@
         body {
             background-color: #efebe9;
             background-image: radial-gradient(#d7ccc8 1px, transparent 1px);
-            background-size: 20px 20px; /* Pola bintik aesthetic */
+            background-size: 20px 20px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -29,7 +31,20 @@
             overflow-x: hidden;
         }
 
-        /* Music Info di Pojok Kanan Atas */
+        /* --- CSS TAMBAHAN UNTUK TRANSISI HALUS --- */
+        #page1, #page2, #page3, #page4, #page5 {
+            transition: opacity 0.6s ease, transform 0.6s ease;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .hidden { 
+            display: none !important; 
+            opacity: 0 !important;
+            transform: translateY(20px) !important;
+        }
+        /* ----------------------------------------- */
+
         #music-info {
             position: fixed;
             top: 20px;
@@ -43,7 +58,7 @@
             border: 1px solid var(--mocha);
             box-shadow: 0 4px 10px rgba(0,0,0,0.05);
             z-index: 1000;
-            display: none; /* Muncul setelah login */
+            display: none;
         }
 
         .music-icon { animation: rotate 3s linear infinite; font-size: 20px; }
@@ -63,9 +78,6 @@
 
         h1 { font-family: 'Sacramento', cursive; font-size: 2.8rem; color: var(--dark-coffee); margin-bottom: 10px; }
         
-        .hidden { display: none; }
-
-        /* Style Input & Tombol */
         input {
             width: 100%;
             padding: 15px;
@@ -90,7 +102,6 @@
 
         button:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
 
-        /* Game Grid */
         .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 20px; }
         .card {
             aspect-ratio: 1/1;
@@ -106,7 +117,6 @@
         }
         .card.flipped { background: #fff; color: var(--dark-coffee); transform: rotateY(180deg); border: 2px solid var(--dark-coffee); }
 
-        /* Foto Frame */
         .photo-frame {
             width: 100%;
             height: 250px;
@@ -118,18 +128,6 @@
         }
 
         .message { font-size: 0.95rem; line-height: 1.6; color: #ce8b4c; font-style: italic; }
-
-        /* Achievement Decoration */
-        .badge {
-            background: #d7ccc8;
-            padding: 10px;
-            border-radius: 10px;
-            margin: 10px 0;
-            font-size: 0.85rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
     </style>
 </head>
 <body>
@@ -163,11 +161,7 @@
         <div id="page3" class="hidden">
             <h1>Sedikit Ceritaku Tentang Tiaraa</h1>
             <img src="foto1.jpg" class="photo-frame">
-            <p class="message">"TIRRRR, ALOOOO kamu pasti liat ini kan mwhehwhe selain kamu gada yg bisa liat. yapss jujur aku baru memperhatiin kamu saat kelas 8 atau kelas 9? pokoknya saat aku
-                dan kamu jadi ketertiban apalah itu, ya sampe sekarang masih ada rasa (bukan rasa aceh ya mie pula nanti jadinya) satu satunya temen perempuan yang ku ceritain
-                ke orang tua ku kamu doangg, nyanyi enak,kalo kerkel ya enakk, tapi yang penting ilangin rasa gapede yakk. di kelas 9 ini yang menjadi motivasi ku untuk berubah ya kamu, 
-                kayak nilai mu lebih tinggi dari pada aku atau apapun itu aku berusaha untuk lebih dari itu hehe.... sama lukisan mu itu bagus banget (punyaku jelek bgt jir gasuka) cocok jadi da vinci
-                 yaaa pokoknya gitu makasih dah mau baca nextt aja yak"</p>
+            <p class="message">"TIRRRR, ALOOOO kamu pasti liat ini kan mwhehwhe selain kamu gada yg bisa liat. yapss jujur aku baru memperhatiin kamu saat kelas 8 atau kelas 9? pokoknya saat aku dan kamu jadi ketertiban apalah itu, ya sampe sekarang masih ada rasa (bukan rasa aceh ya mie pula nanti jadinya) satu satunya temen perempuan yang ku ceritain ke orang tua ku kamu doangg, nyanyi enak,kalo kerkel ya enakk, tapi yang penting ilangin rasa gapede yakk. di kelas 9 ini yang menjadi motivasi ku untuk berubah ya kamu, kayak nilai mu lebih tinggi dari pada aku atau apapun itu aku berusaha untuk lebih dari itu hehe.... sama lukisan mu itu bagus banget (punyaku jelek bgt jir gasuka) cocok jadi da vinci yaaa pokoknya gitu makasih dah mau baca nextt aja yak"</p>
             <button onclick="showPage('page3', 'page4')">Next Page ✨</button>
         </div>
 
@@ -202,12 +196,30 @@
             }
         }
 
-        function showPage(old, next) {
-            document.getElementById(old).classList.add('hidden');
-            document.getElementById(next).classList.remove('hidden');
+        // FUNGSI TRANSISI HALUS (FADE & SLIDE)
+        function showPage(oldId, nextId) {
+            const oldPage = document.getElementById(oldId);
+            const nextPage = document.getElementById(nextId);
+
+            // Mulai memudarkan
+            oldPage.style.opacity = '0';
+            oldPage.style.transform = 'translateY(-20px)';
+
+            setTimeout(() => {
+                oldPage.classList.add('hidden');
+                nextPage.classList.remove('hidden');
+                
+                // Reset posisi untuk animasi masuk
+                nextPage.style.opacity = '0';
+                nextPage.style.transform = 'translateY(20px)';
+                
+                setTimeout(() => {
+                    nextPage.style.opacity = '1';
+                    nextPage.style.transform = 'translateY(0)';
+                }, 50);
+            }, 600);
         }
 
-        // Game Logic dengan Emoji Kopi, Mic, Buku
         const items = ['☕', '🎤', '📖', '☕', '🎤', '📖'];
         let flipped = [];
         let matched = 0;
@@ -227,7 +239,17 @@
                             setTimeout(() => {
                                 if(flipped[0].innerHTML === flipped[1].innerHTML) {
                                     matched++;
-                                    if(matched === 3) showPage('page2', 'page3');
+                                    if(matched === 3) {
+                                        // TRIGGER CONFETTI
+                                        confetti({
+                                            particleCount: 150,
+                                            spread: 70,
+                                            origin: { y: 0.6 },
+                                            colors: ['#ce8a3c', '#d7ccc8', '#ffffff']
+                                        });
+                                        // Tunggu confetti sebentar baru pindah
+                                        setTimeout(() => showPage('page2', 'page3'), 1500);
+                                    }
                                 } else {
                                     flipped.forEach(c => c.classList.remove('flipped'));
                                 }
