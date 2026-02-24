@@ -31,7 +31,6 @@
             overflow-x: hidden;
         }
 
-        /* CSS TRANSISI HALUS */
         #page1, #page2, #page3, #page4, #page5 {
             transition: opacity 0.6s ease, transform 0.6s ease;
             opacity: 1;
@@ -51,13 +50,12 @@
             background: rgba(255, 255, 255, 0.8);
             padding: 10px 15px;
             border-radius: 30px;
-            display: flex;
+            display: none;
             align-items: center;
             gap: 10px;
             border: 1px solid var(--mocha);
             box-shadow: 0 4px 10px rgba(0,0,0,0.05);
             z-index: 1000;
-            display: none;
         }
 
         .music-icon { animation: rotate 3s linear infinite; font-size: 20px; }
@@ -126,7 +124,7 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
 
-        .message { font-size: 0.95rem; line-height: 1.6; color: #ce8b4c; font-style: italic; min-height: 50px; }
+        .message { font-size: 0.95rem; line-height: 1.6; color: #ce8b4c; font-style: italic; min-height: 50px; text-align: center; }
     </style>
 </head>
 <body>
@@ -135,7 +133,7 @@
         <div class="music-icon">🎵</div>
         <div style="text-align: left;">
             <div style="font-size: 10px; color: gray;">Now Playing:</div>
-            <div id="song-title" style="font-size: 12px; font-weight: bold;">Hati -Hati Dijalan - Tulus </div>
+            <div id="song-title" style="font-size: 12px; font-weight: bold;">Hati-Hati di Jalan - Tulus</div>
         </div>
     </div>
 
@@ -184,14 +182,14 @@
         const PASS = "09122010";
         const music = document.getElementById('bgMusic');
 
-        // Konten teks untuk efek mengetik
+        // PERBAIKAN: Koma sudah ditambahkan di akhir type2
         const texts = {
             type1: "TIRRRR, ALOOOO kamu pasti liat ini kan mwhehwhe selain kamu gada yg bisa liat yapss jujur aku baru memperhatiin kamu saat kelas 8 atau kelas 9? pokoknya saat aku dan kamu jadi ketertiban apalah itu, ya sampe sekarang masih ada rasa (bukan rasa aceh ya mie pula nanti jadinya) satu satunya temen perempuan yang ku ceritain ke orang tua ku kamu doangg, nyanyi enak,kalo kerkel ya enakk, tapi yang penting ilangin rasa gapede yakk. di kelas 9 ini yang menjadi motivasi ku untuk berubah ya kamu, kayak nilai mu lebih tinggi dari pada aku atau apapun itu aku berusaha untuk lebih dari itu hehe.... sama lukisan mu itu bagus banget tutor dong hehe. yaa gitu makasih dah mau baca nextt aja yak",
             type2: "Ingat ya Tir, kalau nanti di SMA/SMK kamu ngerasa capek atau ngerasa nggak pede lagi, inget aja aku karena akuu selalu pede yaps. tapi semenjak kmu juara 1 ada perubahan kuliat-liat, yang penting do it and complain less",
             type3: "Makasih ya udah mau nemenin masa-masa kelas 9 jadi lebih indah. Sukses di SMA/SMK nanti, jangan lupain kenangan kita! OKEEEE???!!"
         };
 
-        function typeWriter(elementId, text, speed = 15) {
+        function typeWriter(elementId, text, speed = 30) {
             let i = 0;
             const element = document.getElementById(elementId);
             element.innerHTML = "";
@@ -206,7 +204,8 @@
         }
 
         function login() {
-            if(document.getElementById('pass').value === PASS) {
+            const inputPass = document.getElementById('pass').value;
+            if(inputPass === PASS) {
                 music.play();
                 document.getElementById('music-info').style.display = 'flex';
                 showPage('page1', 'page2');
@@ -234,7 +233,6 @@
                     nextPage.style.opacity = '1';
                     nextPage.style.transform = 'translateY(0)';
                     
-                    // Jalankan efek mengetik jika halaman memiliki elemen id yang sesuai
                     if(nextId === 'page3') typeWriter('type1', texts.type1);
                     if(nextId === 'page4') typeWriter('type2', texts.type2);
                     if(nextId === 'page5') typeWriter('type3', texts.type3);
@@ -248,6 +246,7 @@
 
         function initGame() {
             const board = document.getElementById('game-board');
+            board.innerHTML = ""; // Bersihkan board dulu
             items.sort(() => 0.5 - Math.random());
             items.forEach(item => {
                 const card = document.createElement('div');
