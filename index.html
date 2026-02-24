@@ -31,7 +31,7 @@
             overflow-x: hidden;
         }
 
-        /* --- CSS TAMBAHAN UNTUK TRANSISI HALUS --- */
+        /* CSS TRANSISI HALUS */
         #page1, #page2, #page3, #page4, #page5 {
             transition: opacity 0.6s ease, transform 0.6s ease;
             opacity: 1;
@@ -43,7 +43,6 @@
             opacity: 0 !important;
             transform: translateY(20px) !important;
         }
-        /* ----------------------------------------- */
 
         #music-info {
             position: fixed;
@@ -127,7 +126,7 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
 
-        .message { font-size: 0.95rem; line-height: 1.6; color: #ce8b4c; font-style: italic; }
+        .message { font-size: 0.95rem; line-height: 1.6; color: #ce8b4c; font-style: italic; min-height: 50px; }
     </style>
 </head>
 <body>
@@ -161,14 +160,14 @@
         <div id="page3" class="hidden">
             <h1>Sedikit Ceritaku Tentang Tiaraa</h1>
             <img src="foto1.jpg" class="photo-frame">
-            <p class="message">"TIRRRR, ALOOOO kamu pasti liat ini kan mwhehwhe selain kamu gada yg bisa liat. yapss jujur aku baru memperhatiin kamu saat kelas 8 atau kelas 9? pokoknya saat aku dan kamu jadi ketertiban apalah itu, ya sampe sekarang masih ada rasa (bukan rasa aceh ya mie pula nanti jadinya) satu satunya temen perempuan yang ku ceritain ke orang tua ku kamu doangg, nyanyi enak,kalo kerkel ya enakk, tapi yang penting ilangin rasa gapede yakk. di kelas 9 ini yang menjadi motivasi ku untuk berubah ya kamu, kayak nilai mu lebih tinggi dari pada aku atau apapun itu aku berusaha untuk lebih dari itu hehe.... sama lukisan mu itu bagus banget (punyaku jelek bgt jir gasuka) cocok jadi da vinci yaaa pokoknya gitu makasih dah mau baca nextt aja yak"</p>
+            <p id="type1" class="message"></p>
             <button onclick="showPage('page3', 'page4')">Next Page ✨</button>
         </div>
 
         <div id="page4" class="hidden">
             <h2 style="color: var(--dark-coffee);">Kata - kata (mungkin)</h2>
             <img src="foto2.jpg" class="photo-frame">
-           <p class="message">"test"</p>
+            <p id="type2" class="message"></p>
             <button onclick="showPage('page4', 'page5')">Last Message 💌</button>
         </div>
 
@@ -176,7 +175,7 @@
             <h1>Wall of Fame</h1>
             <img src="foto3.jpg" class="photo-frame">
              <p style="font-family: 'Sacramento'; font-size: 20px; margin-top: 20px;">- Ngajarin anak kicikk -</p>
-            <p class="message">"Makasih ya udah mau nemenin masa-masa kelas 9 jadi lebih indah. Sukses di SMA/SMK nanti, jangan lupain kenangan kita! OKEEEE???!!"</p>
+            <p id="type3" class="message"></p>
             <p style="font-family: 'Sacramento'; font-size: 25px; margin-top: 20px;">- With Love, Me -</p>
         </div>
     </div>
@@ -184,6 +183,27 @@
     <script>
         const PASS = "09122010";
         const music = document.getElementById('bgMusic');
+
+        // Konten teks untuk efek mengetik
+        const texts = {
+            type1: "TIRRRR, ALOOOO kamu pasti liat ini kan mwhehwhe selain kamu gada yg bisa liat. yapss jujur aku baru memperhatiin kamu saat kelas 8 atau kelas 9? pokoknya saat aku dan kamu jadi ketertiban apalah itu, ya sampe sekarang masih ada rasa (bukan rasa aceh ya mie pula nanti jadinya) satu satunya temen perempuan yang ku ceritain ke orang tua ku kamu doangg, nyanyi enak,kalo kerkel ya enakk, tapi yang penting ilangin rasa gapede yakk. di kelas 9 ini yang menjadi motivasi ku untuk berubah ya kamu, kayak nilai mu lebih tinggi dari pada aku atau apapun itu aku berusaha untuk lebih dari itu hehe.... sama lukisan mu itu bagus banget (punyaku jelek bgt jir gasuka) cocok jadi da vinci yaaa pokoknya gitu makasih dah mau baca nextt aja yak",
+            type2: "test (isi kata-katamu di sini ya!)",
+            type3: "Makasih ya udah mau nemenin masa-masa kelas 9 jadi lebih indah. Sukses di SMA/SMK nanti, jangan lupain kenangan kita! OKEEEE???!!"
+        };
+
+        function typeWriter(elementId, text, speed = 30) {
+            let i = 0;
+            const element = document.getElementById(elementId);
+            element.innerHTML = "";
+            function type() {
+                if (i < text.length) {
+                    element.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                }
+            }
+            type();
+        }
 
         function login() {
             if(document.getElementById('pass').value === PASS) {
@@ -196,12 +216,10 @@
             }
         }
 
-        // FUNGSI TRANSISI HALUS (FADE & SLIDE)
         function showPage(oldId, nextId) {
             const oldPage = document.getElementById(oldId);
             const nextPage = document.getElementById(nextId);
 
-            // Mulai memudarkan
             oldPage.style.opacity = '0';
             oldPage.style.transform = 'translateY(-20px)';
 
@@ -209,13 +227,17 @@
                 oldPage.classList.add('hidden');
                 nextPage.classList.remove('hidden');
                 
-                // Reset posisi untuk animasi masuk
                 nextPage.style.opacity = '0';
                 nextPage.style.transform = 'translateY(20px)';
                 
                 setTimeout(() => {
                     nextPage.style.opacity = '1';
                     nextPage.style.transform = 'translateY(0)';
+                    
+                    // Jalankan efek mengetik jika halaman memiliki elemen id yang sesuai
+                    if(nextId === 'page3') typeWriter('type1', texts.type1);
+                    if(nextId === 'page4') typeWriter('type2', texts.type2);
+                    if(nextId === 'page5') typeWriter('type3', texts.type3);
                 }, 50);
             }, 600);
         }
@@ -240,14 +262,12 @@
                                 if(flipped[0].innerHTML === flipped[1].innerHTML) {
                                     matched++;
                                     if(matched === 3) {
-                                        // TRIGGER CONFETTI
                                         confetti({
                                             particleCount: 150,
                                             spread: 70,
                                             origin: { y: 0.6 },
                                             colors: ['#ce8a3c', '#d7ccc8', '#ffffff']
                                         });
-                                        // Tunggu confetti sebentar baru pindah
                                         setTimeout(() => showPage('page2', 'page3'), 1500);
                                     }
                                 } else {
